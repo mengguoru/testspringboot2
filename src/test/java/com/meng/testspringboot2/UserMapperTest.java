@@ -17,6 +17,6 @@ public class UserMapperTest {
     public void testSelect(){
         var l = userMapper.selectList(null);
         for(var i:l)
-            System.out.println(l);
+            System.out.println(i);
     }
 }
