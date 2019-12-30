@@ -31,4 +31,8 @@ public class UserService {
         Page<User> page = new Page<>(pageNum, pageSize);
         return userMapper.selectPage(page, null);
     }
+
+    public void insert(User user){
+        userMapper.insert(user);
+    }
 }

@@ -56,4 +56,11 @@ public class UserController {
         userService.deleteUser(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+
+    @RequestMapping(value = "", method = RequestMethod.POST)
+    public HttpEntity<?> insert(@RequestBody User user){
+        System.out.println(user);
+        userService.insert(user);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }
