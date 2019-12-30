@@ -73,4 +73,13 @@ public class UserController {
         else
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
+
+    @RequestMapping(value = "/account", method = RequestMethod.GET)
+    public HttpEntity<?> account(){
+        var l = userService.account();
+        if(l.size() > 0)
+            return new ResponseEntity<>(l, HttpStatus.OK);
+        else
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
 }
