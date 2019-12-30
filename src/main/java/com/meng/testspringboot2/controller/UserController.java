@@ -63,4 +63,14 @@ public class UserController {
         userService.insert(user);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+    @RequestMapping(value = "", method = RequestMethod.PUT)
+    public HttpEntity<?> update(@RequestBody User user){
+        System.out.println(user);
+        int result = userService.update(user);
+        if(result > 0)
+            return new ResponseEntity<>(HttpStatus.OK);
+        else
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
 }

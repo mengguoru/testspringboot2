@@ -35,4 +35,9 @@ public class UserService {
     public void insert(User user){
         userMapper.insert(user);
     }
+
+    public int update(User user){
+        int update = userMapper.updateById(user);
+        return update;
+    }
 }
