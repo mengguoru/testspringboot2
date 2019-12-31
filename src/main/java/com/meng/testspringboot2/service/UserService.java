@@ -31,6 +31,10 @@ public class UserService {
         userMapper.deleteById(id);
     }
 
+    public int deleteUsers(List<Integer> delList){
+        return userMapper.deleteBatchIds(delList);
+    }
+
     public IPage<User> findPage(Integer pageNum){
         Page<User> page = new Page<>(pageNum, pageSize);
         return userMapper.selectPage(page, null);
