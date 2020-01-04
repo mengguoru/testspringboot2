@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.data.redis.core.RedisTemplate;
 
 @RestController
+@CrossOrigin
 @RequestMapping("/redis")
 public class RedisController {
     @Autowired
