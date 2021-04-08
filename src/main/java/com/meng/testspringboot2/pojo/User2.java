@@ -5,33 +5,19 @@ import java.util.Date;
 import java.util.List;
 
 public class User2 implements Serializable {
+
     private Integer id;
+
     private String username;
+
     private Date birthday;
+
     private String sex;
+
     private String address;
 
 //    对应多个账户
     private List<Account2> accounts;
-
-    public List<Account2> getAccounts() {
-        return accounts;
-    }
-
-    public void setAccounts(List<Account2> accounts) {
-        this.accounts = accounts;
-    }
-
-    @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", username='" + username + '\'' +
-                ", birthday=" + birthday +
-                ", sex='" + sex + '\'' +
-                ", address='" + address + '\'' +
-                '}';
-    }
 
     public Integer getId() {
         return id;
@@ -71,5 +57,24 @@ public class User2 implements Serializable {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public List<Account2> getAccounts() {
+        return accounts;
+    }
+
+    public void setAccounts(List<Account2> accounts) {
+        this.accounts = accounts;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                   "id=" + id +
+                   ", username='" + username + '\'' +
+                   ", birthday=" + birthday +
+                   ", sex='" + sex + '\'' +
+                   ", address='" + address + '\'' +
+                   '}';
     }
 }

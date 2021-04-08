@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @MapperScan("com.meng.testspringboot2.mapper")
 public class MybatisPlusConfig {
+
     @Bean
     public PaginationInterceptor paginationInterceptor(){
         return new PaginationInterceptor();

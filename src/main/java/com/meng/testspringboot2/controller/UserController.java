@@ -1,94 +1,73 @@
 package com.meng.testspringboot2.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.meng.testspringboot2.mapper.UserMapper;
 import com.meng.testspringboot2.pojo.User;
+import com.meng.testspringboot2.pojo.User2;
 import com.meng.testspringboot2.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+import reactor.core.publisher.Mono;
 
 @RestController
 @CrossOrigin
 @RequestMapping("/user")
 public class UserController {
+
+    private static final Logger logger = LoggerFactory.getLogger(UserController.class);
+
     @Autowired
     private UserService userService;
 
-//    @RequestMapping(value = "", method = RequestMethod.GET)
-//    public HttpEntity<?> findAll(){
-//        var users = userService.findAll();
-//        if(users.isEmpty())
-//            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-//        return new ResponseEntity<>(users, HttpStatus.OK);
-//    }
+    @GetMapping
+    public Mono<IPage<User>> index() {
 
-    @RequestMapping(value = "", method = RequestMethod.GET)
-    public HttpEntity<?> index(){
-        var page = userService.findPage(1);
-        return new ResponseEntity<>(page, HttpStatus.OK);
+        return userService.findPage(1);
     }
 
-    @RequestMapping(value = "/page", method = RequestMethod.GET)
-    public HttpEntity<?> findPage(@RequestParam(value = "pageNum", required = false, defaultValue = "1") Integer pageNum){
-        IPage<User> page = userService.findPage(pageNum);
-        return new ResponseEntity<>(page, HttpStatus.OK);
+    @GetMapping("/page")
+    public Mono<IPage<User>> findPage(
+        @RequestParam(value = "pageNum", required = false, defaultValue = "1") Integer pageNum) {
+
+        return userService.findPage(pageNum);
     }
 
-    @RequestMapping(value = "{id}", method = RequestMethod.GET)
-    public HttpEntity<?> findOne(@PathVariable("id")int id){
-        var user = userService.findOne(id);
-        if(null != user)
-            return new ResponseEntity<>(user, HttpStatus.OK);
-        else
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    @GetMapping(value = "/{id}")
+    public Mono<User> findOne(@PathVariable("id") int id) {
+        return userService.findOne(id);
     }
 
-    @RequestMapping(value = "{id}", method = RequestMethod.DELETE)
-    public HttpEntity<?> deleteUser(@PathVariable("id")int id){
-        var user = userService.findOne(id);
-        if(null == user)
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        userService.deleteUser(id);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    @PostMapping("/delete")
+    public Mono<Integer> deleteUsers(@RequestParam("delList") List<Integer> delList) {
+
+        return userService.deleteUsers(delList);
     }
 
-    @RequestMapping(value = "", method = RequestMethod.DELETE)
-    public HttpEntity<?> deleteUsers(@RequestParam("delList")List<Integer> delList){
-        int result = userService.deleteUsers(delList);
-        if(result > 0)
-            return new ResponseEntity<>(HttpStatus.OK);
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    @PostMapping("/insert")
+    public Mono<Void> insert(@RequestBody User user) {
+        logger.info("insert user: {}", user);
+
+        return userService.insert(user);
     }
 
-    @RequestMapping(value = "", method = RequestMethod.POST)
-    public HttpEntity<?> insert(@RequestBody User user){
-        System.out.println(user);
-        userService.insert(user);
-        return new ResponseEntity<>(HttpStatus.OK);
+    @PostMapping("/update")
+    public Mono<Integer> update(@RequestBody User user) {
+        logger.info("update user: {}", user);
+
+        return userService.update(user);
     }
 
-    @RequestMapping(value = "", method = RequestMethod.PUT)
-    public HttpEntity<?> update(@RequestBody User user){
-        System.out.println(user);
-        int result = userService.update(user);
-        if(result > 0)
-            return new ResponseEntity<>(HttpStatus.OK);
-        else
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-    }
-
-    @RequestMapping(value = "/account", method = RequestMethod.GET)
-    public HttpEntity<?> account(){
-        var l = userService.account();
-        if(l.size() > 0)
-            return new ResponseEntity<>(l, HttpStatus.OK);
-        else
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    @GetMapping("/account")
+    public Mono<List<User2>> account() {
+        return userService.account();
     }
 }
