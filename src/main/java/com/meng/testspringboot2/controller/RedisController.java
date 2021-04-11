@@ -8,10 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.ReactiveRedisOperations;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Mono;
 
@@ -33,15 +33,17 @@ public class RedisController {
                    .set(redisInfo.getKey(), redisInfo);
     }
 
-    @GetMapping("{key}")
-    public Mono<RedisInfo> findOne(@PathVariable("key") String key) {
+    @GetMapping("/find")
+    public Mono<RedisInfo> findOne(@RequestParam String key) {
 
         return redisOperations.opsForValue()
                    .get(key);
     }
 
-    @PostMapping("/delete/{key}")
-    public Mono<Long> deleteUser(@PathVariable("key") String key) {
+    @PostMapping("/delete")
+    public Mono<Long> deleteUser(@RequestParam("key") String key) {
+
+        logger.info("delete key: {}", key);
 
         return redisOperations.delete(key);
     }

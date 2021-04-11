@@ -28,12 +28,6 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @GetMapping
-    public Mono<IPage<User>> index() {
-
-        return userService.findPage(1);
-    }
-
     @GetMapping("/page")
     public Mono<IPage<User>> findPage(
         @RequestParam(value = "pageNum", required = false, defaultValue = "1") Integer pageNum) {
